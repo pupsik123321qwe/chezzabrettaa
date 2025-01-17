@@ -7,23 +7,24 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div id="warning-message" class="warning">
-        Are you sure you want to go to this site?
-    </div>
-    <div class="button-container">
-        <button id="proceed-button" class="button">Proceed</button>
-        <button class="leave-button" onclick="window.close()">Leave Site</button>
+    <div id="warning-container" class="warning-container">
+        <div id="warning-message" class="warning-message">
+            <p>Are you sure you want to go to this site?</p>
+        </div>
+        <div class="button-container">
+            <button id="proceed-button" class="button">Proceed</button>
+            <button class="leave-button" onclick="window.close()">Leave Site</button>
+        </div>
     </div>
 
-    <video id="scream-video" autoplay loop>
+    <video id="scream-video" autoplay loop style="display: none;">
         <source src="static/scream.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <script>
         document.getElementById('proceed-button').addEventListener('click', function() {
-            document.getElementById('warning-message').style.display = 'none';
-            document.querySelector('.button-container').style.display = 'none';
+            document.getElementById('warning-container').style.display = 'none';
             document.getElementById('scream-video').style.display = 'block';
 
             // Request full screen
