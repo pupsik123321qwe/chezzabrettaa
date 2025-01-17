@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screamer Site</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="warning-message" class="warning">
+        Are you sure you want to go to this site?
+    </div>
+    <div class="button-container">
+        <button id="proceed-button" class="button">Proceed</button>
+        <button class="leave-button" onclick="window.close()">Leave Site</button>
+    </div>
+
+    <video id="scream-video" autoplay loop>
+        <source src="static/scream.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        document.getElementById('proceed-button').addEventListener('click', function() {
+            document.getElementById('warning-message').style.display = 'none';
+            document.querySelector('.button-container').style.display = 'none';
+            document.getElementById('scream-video').style.display = 'block';
+
+            // Request full screen
+            const videoElement = document.getElementById('scream-video');
+            if (videoElement.requestFullscreen) {
+                videoElement.requestFullscreen().then(() => {
+                    videoElement.play();
+                }).catch((err) => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else if (videoElement.mozRequestFullScreen) { // Firefox
+                videoElement.mozRequestFullScreen().then(() => {
+                    videoElement.play();
+                }).catch((err) => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else if (videoElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                videoElement.webkitRequestFullscreen().then(() => {
+                    videoElement.play();
+                }).catch((err) => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else if (videoElement.msRequestFullscreen) { // IE/Edge
+                videoElement.msRequestFullscreen().then(() => {
+                    videoElement.play();
+                }).catch((err) => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                alert("Fullscreen API is not supported");
+            }
+        });
+
+        // Handle exiting fullscreen
+        document.addEventListener('fullscreenchange', exitHandler);
+        document.addEventListener('webkitfullscreenchange', exitHandler);
+        document.addEventListener('mozfullscreenchange', exitHandler);
+        document.addEventListener('MSFullscreenChange', exitHandler);
+
+        function exitHandler() {
+            if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+                document.getElementById('scream-video').pause();
+            }
+        }
+    </script>
+</body>
+</html>
